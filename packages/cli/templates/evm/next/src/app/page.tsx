@@ -2,12 +2,12 @@
 
 export default function Page() {
   return (
-    <div className="mx-auto max-w-xl p-6 text-center">
-      <h1 className="text-xl leading-tight font-medium tracking-tight sm:text-3xl">
+    <div className="text-foreground/60 mx-auto max-w-2xl p-6 text-center">
+      <h1 className="text-foreground text-xl leading-tight font-medium tracking-tight sm:text-3xl">
         Wagmi + Next.js
       </h1>
 
-      <p className="text-foreground/60 mt-4 mb-12">
+      <p className="mt-4 mb-20 sm:text-lg">
         Non-opinionated template for building apps on EVM-compatible
         blockchains. Made with{' '}
         <a
@@ -31,7 +31,7 @@ export default function Page() {
 
       <p>
         Edit{' '}
-        <code className="rounded-xs bg-blue-500 px-1 font-mono font-semibold text-blue-50">
+        <code className="bg-foreground/50 text-background rounded-sm px-1 font-mono font-medium">
           src/app/page.tsx
         </code>{' '}
         to get started.
