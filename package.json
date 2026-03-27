@@ -10,7 +10,7 @@
     "format:check": "turbo format:check",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "turbo build --filter=create-dapp && changeset publish",
+    "release": "turbo build --filter=@gzkdev/create-dapp && changeset publish",
     "prepare": "simple-git-hooks"
   },
   "devDependencies": {
