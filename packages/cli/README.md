@@ -13,7 +13,7 @@
 ## Features
 
 - ⚡️ **Fast Scaffolding**: Get a production-ready setup in seconds.
-- 🎨 **Premium UI**: Beautiful, minimal landing pages built with **TailwindCSS v4**.
+- 🎨 **UI**: Beautiful, minimal landing pages built with **TailwindCSS v4**.
 - 📦 **Consolidated Providers**: A single `providers.tsx` component for all your network infrastructure.
 - 🛠️ **Modern SDKs**: Uses the latest and most modern blockchain libraries.
 - 🧩 **Framework Choice**: Choose between **Next.js** and **Vite** for every network.
