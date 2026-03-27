@@ -1,6 +1,6 @@
 # EVM DApp Starter (Vite)
 
-A minimal, premium Vite starter for EVM-compatible networks, scaffolded with `create-dapp`.
+A minimal Vite starter for EVM-compatible networks, scaffolded with `create-dapp`.
 
 ## Tech Stack
 
@@ -26,7 +26,7 @@ A minimal, premium Vite starter for EVM-compatible networks, scaffolded with `cr
 ## Project Structure
 
 - `index.html`: Standardized metadata and entry point.
-- `src/App.tsx`: Premium landing page with wallet integration.
+- `src/App.tsx`: landing page with wallet integration.
 - `src/components/providers.tsx`: Consolidated network and query providers with SSR isolation support.
 
 ## Credits

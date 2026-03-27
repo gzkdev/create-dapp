@@ -1,6 +1,6 @@
 # Solana DApp Starter (Vite)
 
-A minimal, premium Vite starter for the Solana network, scaffolded with `create-dapp`.
+A minimal Vite starter for the Solana network, scaffolded with `create-dapp`.
 
 ## Tech Stack
 
@@ -26,7 +26,7 @@ A minimal, premium Vite starter for the Solana network, scaffolded with `create-
 ## Project Structure
 
 - `index.html`: Standardized metadata and entry point.
-- `src/App.tsx`: Premium landing page with wallet integration.
+- `src/App.tsx`: landing page with wallet integration.
 - `src/components/providers.tsx`: Consolidated network and query providers.
 
 ## Credits

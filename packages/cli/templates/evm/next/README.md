@@ -1,6 +1,6 @@
 # EVM DApp Starter (Next.js)
 
-A minimal, premium Next.js starter for EVM-compatible networks, scaffolded with `create-dapp`.
+A minimal Next.js starter for EVM-compatible networks, scaffolded with `create-dapp`.
 
 ## Tech Stack
 
@@ -26,7 +26,7 @@ A minimal, premium Next.js starter for EVM-compatible networks, scaffolded with 
 ## Project Structure
 
 - `src/app/layout.tsx`: Standardized metadata and layout.
-- `src/app/page.tsx`: Premium landing page with wallet integration.
+- `src/app/page.tsx`: landing page with wallet integration.
 - `src/components/providers.tsx`: Consolidated network and query providers.
 
 ## Credits

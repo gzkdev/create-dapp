@@ -29,7 +29,7 @@ function App() {
             </a>
             . Includes pre-configured <code className="font-mono">@solana/client</code> and{' '}
             <code className="font-mono">@solana/react-hooks</code>,
-            giving you a premium developer experience from day zero.
+            giving you a developer experience from day zero.
           </p>
           <ul className="mt-4 space-y-2 text-sm">
             <li className="flex gap-2">
