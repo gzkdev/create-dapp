@@ -1,4 +1,4 @@
-# EVM dApp Starter (Next.js)
+# EVM DApp Starter (Next.js)
 
 A minimal, premium Next.js starter for EVM-compatible networks, scaffolded with `create-dapp`.
 
@@ -31,4 +31,4 @@ A minimal, premium Next.js starter for EVM-compatible networks, scaffolded with 
 
 ## Credits
 
-Scaffolded with `create-dapp` by [@gzkdev](https://github.com/gzkdev).
+Scaffolded with [create-dapp](https://www.npmjs.com/package/@gzkdev/create-dapp) by [@gzkdev](https://github.com/gzkdev).

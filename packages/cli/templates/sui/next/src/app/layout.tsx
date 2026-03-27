@@ -9,7 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Sui dApp Starter',
+  title: 'Sui DApp Starter',
   description: 'A minimal Next.js starter powered by @mysten/dapp-kit-react',
   icons: {
     icon: '/vercel.svg',

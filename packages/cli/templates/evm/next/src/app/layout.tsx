@@ -9,7 +9,7 @@ export const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'EVM dApp Starter',
+  title: 'EVM DApp Starter',
   description: 'A minimal Next.js starter powered by wagmi and viem',
   icons: {
     icon: '/vercel.svg',

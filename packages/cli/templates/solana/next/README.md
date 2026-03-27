@@ -1,4 +1,4 @@
-# Solana dApp Starter (Next.js)
+# Solana DApp Starter (Next.js)
 
 A minimal, premium Next.js starter for the Solana network, scaffolded with `create-dapp`.
 
@@ -31,4 +31,4 @@ A minimal, premium Next.js starter for the Solana network, scaffolded with `crea
 
 ## Credits
 
-Scaffolded with `create-dapp` by [@gzkdev](https://github.com/gzkdev).
+Scaffolded with [create-dapp](https://www.npmjs.com/package/@gzkdev/create-dapp) by [@gzkdev](https://github.com/gzkdev).

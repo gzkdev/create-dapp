@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 import * as p from '@clack/prompts';
 import pc from 'picocolors';
+import symbols from 'log-symbols';
 
 import { runCli } from './cli.js';
 import {
@@ -40,7 +41,7 @@ async function main() {
   s.stop('Git repository initialised');
 
   console.log('');
-  console.log(pc.green('✔') + ' ' + pc.bold(`${projectName} is ready!`));
+  console.log(symbols.success + ' ' + pc.bold(`${projectName} is ready!`));
   console.log('');
   console.log('  Get started:');
   console.log(pc.dim('  $ ') + pc.cyan(`cd ${projectName}`));

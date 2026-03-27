@@ -1,10 +1,10 @@
 # create-dapp
 
-The ultimate CLI tool for scaffolding minimal, unopinionated, and premium dApp templates.
+The ultimate CLI tool for scaffolding minimal, unopinionated, and premium DApp templates.
 
 ## Overview
 
-`create-dapp` is designed to get you from zero to a functioning dApp in seconds. It provides a standardized, high-performance boilerplate for the most popular blockchain ecosystems, all while staying out of your way.
+`create-dapp` is designed to get you from zero to a functioning DApp in seconds. It provides a standardized, high-performance boilerplate for the most popular blockchain ecosystems, all while staying out of your way.
 
 ## Supported Networks
 

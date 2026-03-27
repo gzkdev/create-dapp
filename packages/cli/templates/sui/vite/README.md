@@ -1,4 +1,4 @@
-# Sui dApp Starter (Vite)
+# Sui DApp Starter (Vite)
 
 A minimal, premium Vite starter for the Sui network, scaffolded with `create-dapp`.
 
@@ -31,4 +31,4 @@ A minimal, premium Vite starter for the Sui network, scaffolded with `create-dap
 
 ## Credits
 
-Scaffolded with `create-dapp` by [@gzkdev](https://github.com/gzkdev).
+Scaffolded with [create-dapp](https://www.npmjs.com/package/@gzkdev/create-dapp) by [@gzkdev](https://github.com/gzkdev).

@@ -32,11 +32,11 @@ export default function Home() {
             Sui starter kit
           </p>
           <h1 className="text-3xl font-semibold tracking-tight">
-            Ship a Sui dapp fast
+            Ship a Sui DApp fast
           </h1>
           <p className="max-w-3xl text-base leading-relaxed text-black/60 dark:text-white/60">
             Scaffolded with <code className="font-mono">create-dapp</code>, a
-            modern dApp starter by{' '}
+            modern DApp starter by{' '}
             <a
               href="https://github.com/gzkdev"
               target="_blank"

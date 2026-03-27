@@ -1,4 +1,4 @@
-# EVM dApp Starter (Vite)
+# EVM DApp Starter (Vite)
 
 A minimal, premium Vite starter for EVM-compatible networks, scaffolded with `create-dapp`.
 
@@ -31,4 +31,4 @@ A minimal, premium Vite starter for EVM-compatible networks, scaffolded with `cr
 
 ## Credits
 
-Scaffolded with `create-dapp` by [@gzkdev](https://github.com/gzkdev).
+Scaffolded with [create-dapp](https://www.npmjs.com/package/@gzkdev/create-dapp) by [@gzkdev](https://github.com/gzkdev).

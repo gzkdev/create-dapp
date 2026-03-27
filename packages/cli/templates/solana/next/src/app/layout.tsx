@@ -9,7 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Solana dApp Starter',
+  title: 'Solana DApp Starter',
   description: 'A minimal Next.js starter powered by @solana/react-hooks',
   icons: {
     icon: '/vercel.svg',
