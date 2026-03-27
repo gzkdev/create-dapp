@@ -1,7 +1,9 @@
 import path from 'node:path';
 
 import { execa } from 'execa';
-import { copy, pathExists, readJSON, writeJSON } from 'fs-extra';
+import fs from 'fs-extra';
+
+const { copy, pathExists, readJSON, writeJSON } = fs;
 import pc from 'picocolors';
 
 export async function copyTemplate(srcDir: string, destDir: string) {

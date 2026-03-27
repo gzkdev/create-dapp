@@ -1,4 +1,6 @@
-import { mkdirp, pathExists, readdir } from 'fs-extra';
+import fs from 'fs-extra';
+
+const { mkdirp, pathExists, readdir } = fs;
 
 export async function isEmptyDirectory(dirPath: string): Promise<boolean> {
   if (!(await pathExists(dirPath))) {
