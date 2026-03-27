@@ -1,7 +1,7 @@
 {
   "name": "create-dapp",
   "version": "1.0.0",
-  "description": "A turborepo-powered monorepo for @gzkdev/create-dapp, a CLI to scaffold minimal and slightly opinionated DApp starter kits for various blockchain networks.",
+  "description": "A turborepo-powered monorepo for @gzkdev/create-dapp, a CLI tool to scaffold minimal and slightly opinionated DApps.",
   "private": true,
   "architecture": {
     "packages/cli": "The core CLI tool built with Commander, Clack for prompts, and Tsup for bundling.",

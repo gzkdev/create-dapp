@@ -1,4 +1,4 @@
-@gzkdev/create-dapp is a CLI to scaffold minimal and slightly opinionated DApp starter kits for various blockchain networks.
+@gzkdev/create-dapp is a CLI tool to scaffold minimal and slightly opinionated DApps.
 
 ## Overview
 
