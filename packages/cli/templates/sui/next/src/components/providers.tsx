@@ -1,3 +1,5 @@
+'use client';
+
 import { type ReactNode } from 'react';
 import { DAppKitProvider, createDAppKit } from '@mysten/dapp-kit-react';
 import { SuiGrpcClient } from '@mysten/sui/grpc';

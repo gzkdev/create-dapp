@@ -1,3 +1,6 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import {
   useDAppKit,
   useWalletConnection,
@@ -5,14 +8,24 @@ import {
 } from '@mysten/dapp-kit-react';
 
 export default function Home() {
+  const [mounted, setMounted] = useState(false);
   const wallets = useWallets();
   const { account, isConnecting, wallet } = useWalletConnection();
   const { connectWallet, disconnectWallet } = useDAppKit();
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const address = account?.address;
 
+  if (!mounted) return null;
+
   return (
-    <div className="relative min-h-screen overflow-x-clip bg-white text-[#171717] dark:bg-[#0a0a0a] dark:text-[#ededed]">
+    <div
+      suppressHydrationWarning
+      className="relative min-h-screen overflow-x-clip bg-white text-[#171717] dark:bg-[#0a0a0a] dark:text-[#ededed]"
+    >
       <main className="relative z-10 mx-auto flex min-h-screen max-w-4xl flex-col gap-10 border-x border-black/5 px-6 py-16 dark:border-white/5">
         <header className="space-y-3">
           <p className="text-sm font-medium tracking-[0.18em] text-black/50 uppercase dark:text-white/50">
