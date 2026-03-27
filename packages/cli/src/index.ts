@@ -17,7 +17,7 @@ import {
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function main() {
-  const { projectName, network, template } = await runCli();
+  const { projectName, network, template, installDependencies: shouldInstall } = await runCli();
 
   const targetDir = path.resolve(process.cwd(), projectName);
   const templateDir = path.resolve(__dirname, '../templates', network, template);
@@ -29,22 +29,30 @@ async function main() {
   s.stop('Template files copied');
 
   s.start('Updating package.json…');
-  await modifyPackageJson(targetDir, projectName);
+  const projectBaseName = projectName === '.' ? path.basename(process.cwd()) : projectName;
+  await modifyPackageJson(targetDir, projectBaseName);
   s.stop('package.json updated');
-
-  s.start('Installing dependencies…');
-  await installDependencies(targetDir);
-  s.stop('Dependencies installed');
 
   s.start('Initialising git repository…');
   await initializeGit(targetDir);
   s.stop('Git repository initialised');
 
+  if (shouldInstall) {
+    s.start('Installing dependencies…');
+    await installDependencies(targetDir);
+    s.stop('Dependencies installed');
+  }
+
   console.log('');
-  console.log(symbols.success + ' ' + pc.bold(`${projectName} is ready!`));
+  console.log(symbols.success + ' ' + pc.bold(`${projectBaseName} is ready!`));
   console.log('');
   console.log('  Get started:');
-  console.log(pc.dim('  $ ') + pc.cyan(`cd ${projectName}`));
+  if (projectName !== '.') {
+    console.log(pc.dim('  $ ') + pc.cyan(`cd ${projectName}`));
+  }
+  if (!shouldInstall) {
+    console.log(pc.dim('  $ ') + pc.cyan('npm install'));
+  }
   console.log(pc.dim('  $ ') + pc.cyan('npm run dev'));
   console.log('');
 }

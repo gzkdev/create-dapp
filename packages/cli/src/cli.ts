@@ -16,6 +16,7 @@ export interface CliResults {
   projectName: string;
   network: string;
   template: string;
+  installDependencies: boolean;
 }
 
 export async function runCli(): Promise<CliResults> {
@@ -35,11 +36,11 @@ export async function runCli(): Promise<CliResults> {
 
   if (!projectName) {
     const projectDir = await p.text({
-      message: 'What is your project named?',
-      placeholder: 'my-dapp',
-      defaultValue: 'my-dapp',
+      message: 'Where should we create your project?',
+      placeholder: './my-DApp',
+      defaultValue: '.',
       validate: (value) => {
-        if (!value) return 'Please enter a project name.';
+        if (value.length === 0) return 'Please enter a path.';
       },
     });
 
@@ -107,13 +108,24 @@ export async function runCli(): Promise<CliResults> {
     process.exit(0);
   }
 
+  const install = await p.confirm({
+    message: 'Would you like to install dependencies? (Recommended)',
+    initialValue: true,
+  });
+
+  if (p.isCancel(install)) {
+    p.cancel('Operation cancelled.');
+    process.exit(0);
+  }
+
   p.outro(
-    `Project configuration complete! We will scaffold ${pc.cyan(projectName)} targeting ${pc.cyan(network as string)} using ${pc.cyan(template as string)}.`
+    `Configuration complete! We will scaffold the DApp in ${pc.cyan(projectName)}.`
   );
 
   return {
     projectName,
     network: network as string,
     template: template as string,
+    installDependencies: install as boolean,
   };
 }
