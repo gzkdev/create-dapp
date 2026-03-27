@@ -1,19 +1,17 @@
+'use client';
+
 import {
-  useConnectWallet,
-  useCurrentAccount,
-  useCurrentWallet,
-  useDisconnectWallet,
+  useDAppKit,
+  useWalletConnection,
   useWallets,
 } from '@mysten/dapp-kit-react';
 
 function App() {
   const wallets = useWallets();
-  const { mutate: connect, isPending } = useConnectWallet();
-  const { mutate: disconnect } = useDisconnectWallet();
-  const wallet = useCurrentWallet();
-  const currentAccount = useCurrentAccount();
+  const { account, isConnecting, wallet } = useWalletConnection();
+  const { connectWallet, disconnectWallet } = useDAppKit();
 
-  const address = currentAccount?.address;
+  const address = account?.address;
 
   return (
     <div className="relative min-h-screen overflow-x-clip bg-white text-[#171717] dark:bg-[#0a0a0a] dark:text-[#ededed]">
@@ -95,8 +93,8 @@ function App() {
                 one spot.
               </p>
             </div>
-            <span className="rounded-full bg-black/5 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-black/80 dark:bg-white/5 dark:text-white/80">
-              {currentAccount ? 'Connected' : 'Not connected'}
+            <span className="rounded-full bg-black/5 px-3 py-1 text-xs font-semibold tracking-wide text-black/80 uppercase dark:bg-white/5 dark:text-white/80">
+              {account ? 'Connected' : 'Not connected'}
             </span>
           </div>
 
@@ -104,24 +102,23 @@ function App() {
             {wallets.map((walletItem) => (
               <button
                 key={walletItem.name}
-                onClick={() => connect({ wallet: walletItem })}
-                disabled={isPending}
-                className="group flex items-center justify-between rounded-xl border border-black/5 bg-white px-4 py-3 text-left text-sm font-medium transition hover:-translate-y-0.5 hover:shadow-sm dark:border-white/5 dark:bg-white/5 disabled:cursor-not-allowed disabled:opacity-60"
+                onClick={() => connectWallet({ wallet: walletItem })}
+                disabled={isConnecting}
+                className="group flex items-center justify-between rounded-xl border border-black/5 bg-white px-4 py-3 text-left text-sm font-medium transition hover:-translate-y-0.5 hover:shadow-sm disabled:cursor-not-allowed disabled:opacity-60 dark:border-white/5 dark:bg-white/5"
               >
                 <span className="flex flex-col">
                   <span className="text-base">{walletItem.name}</span>
                   <span className="text-xs text-black/50 dark:text-white/50">
-                    {isPending
+                    {isConnecting
                       ? 'Connecting…'
-                      : currentAccount &&
-                          wallet?.name === walletItem.name
+                      : account && wallet?.name === walletItem.name
                         ? 'Active'
                         : 'Tap to connect'}
                   </span>
                 </span>
                 <span
                   aria-hidden
-                  className="h-2.5 w-2.5 rounded-full bg-black/10 dark:bg-white/10 transition group-hover:bg-blue-400/80"
+                  className="h-2.5 w-2.5 rounded-full bg-black/10 transition group-hover:bg-blue-400/80 dark:bg-white/10"
                 />
               </button>
             ))}
@@ -132,9 +129,9 @@ function App() {
               {address ?? 'No wallet connected'}
             </span>
             <button
-              onClick={() => disconnect()}
-              disabled={!currentAccount}
-              className="inline-flex items-center gap-2 rounded-lg border border-black/5 bg-white px-3 py-2 font-medium transition hover:-translate-y-0.5 hover:shadow-sm dark:border-white/5 dark:bg-white/5 disabled:cursor-not-allowed disabled:opacity-60"
+              onClick={() => disconnectWallet()}
+              disabled={!account}
+              className="inline-flex items-center gap-2 rounded-lg border border-black/5 bg-white px-3 py-2 font-medium transition hover:-translate-y-0.5 hover:shadow-sm disabled:cursor-not-allowed disabled:opacity-60 dark:border-white/5 dark:bg-white/5"
             >
               Disconnect
             </button>
