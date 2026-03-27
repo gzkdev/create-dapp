@@ -84,7 +84,6 @@ export async function runCli(): Promise<CliResults> {
     evm: [
       { value: 'next', label: 'Next.js' },
       { value: 'vite', label: 'Vite (React)' },
-      { value: 'tanstack', label: 'TanStack Start' },
     ],
     solana: [
       { value: 'next', label: 'Next.js' },
@@ -118,9 +117,7 @@ export async function runCli(): Promise<CliResults> {
     process.exit(0);
   }
 
-  p.outro(
-    `Configuration complete! We will scaffold the DApp in ${pc.cyan(projectName)}.`
-  );
+  p.outro(`Configuration complete! We will scaffold the DApp in ${pc.cyan(projectName)}.`);
 
   return {
     projectName,
