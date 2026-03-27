@@ -1,4 +1,6 @@
-@gzkdev/create-dapp is a CLI tool to scaffold minimal and slightly opinionated DApps.
+# @gzkdev/create-dapp
+
+A CLI tool to scaffold minimal and slightly opinionated DApps.
 
 ## Overview
 
