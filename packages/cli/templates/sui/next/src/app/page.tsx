@@ -13,11 +13,11 @@ export default function Home() {
   const { account, isConnecting, wallet } = useWalletConnection();
   const { connectWallet, disconnectWallet } = useDAppKit();
 
+  const address = account?.address;
+
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  const address = account?.address;
 
   if (!mounted) return null;
 
@@ -35,10 +35,19 @@ export default function Home() {
             Ship a Sui dapp fast
           </h1>
           <p className="max-w-3xl text-base leading-relaxed text-black/60 dark:text-white/60">
-            Drop in <code className="font-mono">@mysten/dapp-kit-react</code>,
-            wrap your tree once, and you get wallet connect/disconnect plus
-            ready-to-use hooks for balances and transactions—no manual RPC
-            wiring.
+            Scaffolded with <code className="font-mono">create-dapp</code>, a
+            modern dApp starter by{' '}
+            <a
+              href="https://github.com/gzkdev"
+              target="_blank"
+              rel="noreferrer"
+              className="font-medium underline underline-offset-4 decoration-black/20 transition hover:decoration-black/40 dark:decoration-white/20 dark:hover:decoration-white/40"
+            >
+              @gzkdev
+            </a>
+            . Includes pre-configured{' '}
+            <code className="font-mono">@mysten/dapp-kit-react</code> and wallet
+            connection, giving you a premium developer experience from day zero.
           </p>
           <ul className="mt-4 space-y-2 text-sm">
             <li className="flex gap-2">
