@@ -1,6 +1,18 @@
 {
   "name": "create-dapp",
+  "version": "1.0.0",
+  "description": "A turborepo-powered monorepo for @gzkdev/create-dapp, a CLI that scaffolds minimal and slightly opinionated DApp starter kits for EVM, SUI, and Solana.",
   "private": true,
+  "architecture": {
+    "packages/cli": "The core CLI tool built with Commander, Clack for prompts, and Tsup for bundling.",
+    "packages/cli/templates": "Standardized DApp templates for different networks and frameworks (Next.js, Vite).",
+    "tooling": "Shared configuration for ESLint, TypeScript, and Prettier managed via workspace:* versions."
+  },
+  "guide": {
+    "development": "Run 'pnpm dev' in the root to start turbo in watch mode for the CLI.",
+    "adding_template": "Add a new directory in 'packages/cli/templates' and update the 'templateOptions' in 'packages/cli/src/cli.ts'.",
+    "releasing": "Run 'pnpm changeset' to document changes and 'pnpm run release' to publish."
+  },
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
