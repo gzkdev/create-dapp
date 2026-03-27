@@ -23,7 +23,7 @@ export async function runCli(): Promise<CliResults> {
   const program = new Command()
     .name('create-dapp')
     .description(
-      'A CLI to scaffold minimal and slightly opinionated DApp starter kits for various blockchain networks.'
+      'A CLI tool to scaffold minimal and slightly opinionated DApps.'
     )
     .argument('[project-directory]', 'Project directory')
     .option('-t, --template <string>', 'Template to use')
