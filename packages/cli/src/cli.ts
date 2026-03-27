@@ -23,7 +23,7 @@ export async function runCli(): Promise<CliResults> {
   const program = new Command()
     .name('create-dapp')
     .description(
-      'A CLI that scaffolds minimal and slightly opinionated DApp starter kits for different blockchains which include EVM, SUI, and solana.'
+      'A CLI to scaffold minimal and slightly opinionated DApp starter kits for various blockchain networks.'
     )
     .argument('[project-directory]', 'Project directory')
     .option('-t, --template <string>', 'Template to use')

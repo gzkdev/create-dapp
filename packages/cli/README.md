@@ -1,4 +1,4 @@
-@gzkdev/create-dapp is a CLI that scaffolds minimal and slightly opinionated DApp starter kits for different blockchains which include EVM, SUI, and solana.
+@gzkdev/create-dapp is a CLI to scaffold minimal and slightly opinionated DApp starter kits for various blockchain networks.
 
 ## Overview
 

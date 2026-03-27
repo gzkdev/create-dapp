@@ -3,7 +3,7 @@
   "author": "gzkdev",
   "version": "1.0.0",
   "type": "module",
-  "description": "A CLI that scaffolds minimal and slightly opinionated DApp starter kits for different blockchains which include EVM, SUI, and solana.",
+  "description": "A CLI to scaffold minimal and slightly opinionated DApp starter kits for various blockchain networks.",
   "keywords": [
     "dapp",
     "web3",
