@@ -3,7 +3,7 @@
   "author": "gzkdev",
   "version": "1.0.0",
   "type": "module",
-  "description": "The ultimate CLI tool for scaffolding minimal, unopinionated, and premium DApp templates.",
+  "description": "A CLI that scaffolds minimal and slightly opinionated DApp starter kits for different blockchains which include EVM, SUI, and solana.",
   "keywords": [
     "dapp",
     "web3",

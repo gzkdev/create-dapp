@@ -1,10 +1,8 @@
-# create-dapp
-
-The ultimate CLI tool for scaffolding minimal, unopinionated, and premium DApp templates.
+@gzkdev/create-dapp is a CLI that scaffolds minimal and slightly opinionated DApp starter kits for different blockchains which include EVM, SUI, and solana.
 
 ## Overview
 
-`create-dapp` is designed to get you from zero to a functioning DApp in seconds. It provides a standardized, high-performance boilerplate for the most popular blockchain ecosystems, all while staying out of your way.
+`@gzkdev/create-dapp` is designed to get you from zero to a functioning DApp in seconds. It provides a standardized, high-performance boilerplate for the most popular blockchain ecosystems, all while staying out of your way.
 
 ## Supported Networks
 
@@ -28,9 +26,7 @@ npx gzkdev/create-dapp@latest
 
 ## Creator
 
-Built with ❤️ by [gzkdev](https://github.com/gzkdev).
-
-If you find this tool useful, consider following me on [GitHub](https://github.com/gzkdev) or reaching out for opportunities!
+Built by [gzkdev](https://github.com/gzkdev).
 
 ## License
 
