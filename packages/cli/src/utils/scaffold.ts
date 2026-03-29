@@ -43,19 +43,40 @@ export async function modifyPackageJson(destDir: string, projectName: string) {
   }
 }
 
+export function getPackageManager() {
+  const userAgent = process.env.npm_config_user_agent || '';
+  if (userAgent.includes('yarn')) return 'yarn';
+  if (userAgent.includes('pnpm')) return 'pnpm';
+  return 'npm';
+}
+
 export async function installDependencies(destDir: string) {
-  await execa('npm', ['install'], {
-    cwd: destDir,
-    stdio: 'inherit',
-  });
+  const pkgManager = getPackageManager();
+  try {
+    await execa(pkgManager, ['install'], {
+      cwd: destDir,
+      stdio: 'inherit',
+      shell: true,
+    });
+    return true;
+  } catch {
+    console.log('');
+    console.log(
+      pc.yellow(
+        `Warning: Failed to install dependencies. You may need to run '${pkgManager} install' manually.`
+      )
+    );
+    return false;
+  }
 }
 
 export async function initializeGit(destDir: string) {
   try {
-    await execa('git', ['init'], { cwd: destDir });
-    await execa('git', ['add', '.'], { cwd: destDir });
-    await execa('git', ['commit', '-m', 'Initial commit from create-dapp'], {
+    await execa('git', ['init'], { cwd: destDir, shell: true });
+    await execa('git', ['add', '.'], { cwd: destDir, shell: true });
+    await execa('git', ['commit', '-m', 'feat: initial commit from create-dapp'], {
       cwd: destDir,
+      shell: true,
     });
   } catch {
     console.log(pc.yellow('Warning: Failed to initialize git repository.'));
