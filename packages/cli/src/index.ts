@@ -3,12 +3,13 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import * as p from '@clack/prompts';
-import pc from 'picocolors';
 import symbols from 'log-symbols';
+import pc from 'picocolors';
 
 import { runCli } from './cli.js';
 import {
   copyTemplate,
+  getPackageManager,
   initializeGit,
   installDependencies,
   modifyPackageJson,
@@ -37,11 +38,18 @@ async function main() {
   await initializeGit(targetDir);
   s.stop('Git repository initialised');
 
+  let installSuccess = false;
   if (shouldInstall) {
     s.start('Installing dependencies…');
-    await installDependencies(targetDir);
-    s.stop('Dependencies installed');
+    installSuccess = await installDependencies(targetDir);
+    if (installSuccess) {
+      s.stop('Dependencies installed');
+    } else {
+      s.stop('Dependency installation failed');
+    }
   }
+
+  const pkgManager = getPackageManager();
 
   console.log('');
   console.log(symbols.success + ' ' + pc.bold(`${projectBaseName} is ready!`));
@@ -50,10 +58,10 @@ async function main() {
   if (projectName !== '.') {
     console.log(pc.dim('  $ ') + pc.cyan(`cd ${projectName}`));
   }
-  if (!shouldInstall) {
-    console.log(pc.dim('  $ ') + pc.cyan('npm install'));
+  if (!shouldInstall || !installSuccess) {
+    console.log(pc.dim('  $ ') + pc.cyan(`${pkgManager} install`));
   }
-  console.log(pc.dim('  $ ') + pc.cyan('npm run dev'));
+  console.log(pc.dim('  $ ') + pc.cyan(`${pkgManager} run dev`));
   console.log('');
 }
 
