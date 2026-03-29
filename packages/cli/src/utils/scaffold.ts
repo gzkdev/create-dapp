@@ -2,18 +2,35 @@ import path from 'node:path';
 
 import { execa } from 'execa';
 import fs from 'fs-extra';
-
-const { copy, pathExists, readJSON, writeJSON } = fs;
 import pc from 'picocolors';
 
+const { copy, pathExists, readJSON, writeJSON } = fs;
+
 export async function copyTemplate(srcDir: string, destDir: string) {
+  // Copy all files except node_modules, .next, and .git
   await copy(srcDir, destDir, {
     filter: (src) => {
       const isNodeModules = src.includes('node_modules');
       const isNextCache = src.includes('.next');
-      return !isNodeModules && !isNextCache;
+      const isGit = src.includes('.git');
+      return !isNodeModules && !isNextCache && !isGit;
     },
   });
+
+  // Rename gitignore to .gitignore
+  const gitignorePath = path.join(destDir, 'gitignore');
+  const dotGitignorePath = path.join(destDir, '.gitignore');
+
+  if (await pathExists(gitignorePath)) {
+    await fs.move(gitignorePath, dotGitignorePath, { overwrite: true });
+  }
+
+  // Handle env.local -> .env.local if needed
+  const envPath = path.join(destDir, 'env.local');
+  const dotEnvPath = path.join(destDir, '.env.local');
+  if (await pathExists(envPath)) {
+    await fs.move(envPath, dotEnvPath, { overwrite: true });
+  }
 }
 
 export async function modifyPackageJson(destDir: string, projectName: string) {
