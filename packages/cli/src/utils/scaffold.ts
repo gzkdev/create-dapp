@@ -1,47 +1,60 @@
 import path from 'node:path';
-
 import { execa } from 'execa';
 import fs from 'fs-extra';
+import { rimraf } from 'rimraf';
 
-const { copy, pathExists, readJSON, writeJSON, remove } = fs;
+const { copy, pathExists, readJSON, writeJSON } = fs;
 
-export async function copyTemplate(srcDir: string, destDir: string) {
-  if (!(await pathExists(srcDir))) {
-    throw new Error(`Template directory not found: ${srcDir}`);
+export async function copyTemplate(options: {
+  templatePath: string;
+  projectPath: string;
+  includeAgents?: boolean;
+}) {
+  const { templatePath, projectPath, includeAgents = false } = options;
+
+  if (!(await pathExists(templatePath))) {
+    throw new Error(`Template directory not found: ${templatePath}`);
   }
 
-  // Copy all files except node_modules, .next, and .git
-  await copy(srcDir, destDir, {
+  await copy(templatePath, projectPath, {
     filter: (src) => {
       const name = path.basename(src);
-      return name !== 'node_modules' && name !== '.next' && name !== '.git';
+      const isHidden = ['node_modules', '.next', '.git'].includes(name);
+      const isAgentFile = ['AGENTS.md', 'CLAUDE.md'].includes(name);
+
+      if (isHidden) return false;
+      if (isAgentFile && !includeAgents) return false;
+
+      return true;
     },
   });
 
   // Rename gitignore to .gitignore
-  const gitignorePath = path.join(destDir, 'gitignore');
-  const dotGitignorePath = path.join(destDir, '.gitignore');
+  const gitignorePath = path.join(projectPath, 'gitignore');
+  const dotGitignorePath = path.join(projectPath, '.gitignore');
 
   if (await pathExists(gitignorePath)) {
     await fs.move(gitignorePath, dotGitignorePath, { overwrite: true });
   }
 
   // Handle env.local -> .env.local if needed
-  const envPath = path.join(destDir, 'env.local');
-  const dotEnvPath = path.join(destDir, '.env.local');
+  const envPath = path.join(projectPath, 'env.local');
+  const dotEnvPath = path.join(projectPath, '.env.local');
   if (await pathExists(envPath)) {
     await fs.move(envPath, dotEnvPath, { overwrite: true });
   }
 }
 
-export async function modifyPackageJson(destDir: string, projectName: string) {
-  const pkgPath = path.join(destDir, 'package.json');
-  if (await pathExists(pkgPath)) {
-    const pkg = await readJSON(pkgPath);
-    pkg.name = projectName;
-    pkg.version = '0.1.0';
-    await writeJSON(pkgPath, pkg, { spaces: 2 });
+export async function modifyPackageJson(options: { projectPath: string; baseName: string }) {
+  const { projectPath, baseName } = options;
+  const pkgPath = path.join(projectPath, 'package.json');
+  if (!(await pathExists(pkgPath))) {
+    throw new Error(`package.json not found in ${projectPath}`);
   }
+  const pkg = await readJSON(pkgPath);
+  pkg.name = baseName;
+  pkg.version = '0.1.0';
+  await writeJSON(pkgPath, pkg, { spaces: 2 });
 }
 
 export function getPackageManager() {
@@ -51,41 +64,28 @@ export function getPackageManager() {
   return 'npm';
 }
 
-export async function installDependencies(destDir: string) {
+export async function installDependencies(options: { projectPath: string }) {
+  const { projectPath } = options;
   const pkgManager = getPackageManager();
-  try {
-    await execa(pkgManager, ['install'], {
-      cwd: destDir,
-      stdio: 'inherit',
-      shell: true,
-    });
-    return true;
-  } catch {
-    return false;
-  }
+  await execa(pkgManager, ['install'], {
+    cwd: projectPath,
+    stdio: 'inherit',
+    shell: true,
+  });
 }
 
-export async function initializeGit(destDir: string) {
-  try {
-    // Check if git is installed
-    await execa('git', ['--version']);
+export async function initializeGit(options: { projectPath: string }) {
+  const { projectPath } = options;
 
-    await execa('git', ['init', '--initial-branch=main'], { cwd: destDir });
-    await execa('git', ['add', '.'], { cwd: destDir });
-    await execa('git', ['commit', '-m', 'feat: initial commit from create-dapp'], {
-      cwd: destDir,
-    });
-    return { success: true };
-  } catch (err) {
-    return {
-      success: false,
-      error: err instanceof Error ? err.message : 'Unknown error',
-    };
-  }
+  await execa('git', ['--version']);
+
+  await execa('git', ['init', '--initial-branch=main'], { cwd: projectPath });
+  await execa('git', ['add', '.'], { cwd: projectPath });
+  await execa('git', ['commit', '-m', 'feat: initial commit from create-dapp'], {
+    cwd: projectPath,
+  });
 }
 
 export async function removeDirectory(dir: string) {
-  if (await pathExists(dir)) {
-    await remove(dir);
-  }
+  await rimraf(dir);
 }
