@@ -1,5 +1,11 @@
 # @gzkdev/create-dapp
 
+## 1.1.0
+
+### Minor Changes
+
+- 0bf4cf4: Major refactor of the CLI to use 'prompts' and 'ora' for a better UX. Added support for 'AGENTS.md' inclusion in Next.js projects and integrated 'commander' for argument-based scaffolding.
+
 ## 1.0.4
 
 ### Patch Changes
