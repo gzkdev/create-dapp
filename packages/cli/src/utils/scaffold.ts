@@ -2,18 +2,19 @@ import path from 'node:path';
 
 import { execa } from 'execa';
 import fs from 'fs-extra';
-import pc from 'picocolors';
 
-const { copy, pathExists, readJSON, writeJSON } = fs;
+const { copy, pathExists, readJSON, writeJSON, remove } = fs;
 
 export async function copyTemplate(srcDir: string, destDir: string) {
+  if (!(await pathExists(srcDir))) {
+    throw new Error(`Template directory not found: ${srcDir}`);
+  }
+
   // Copy all files except node_modules, .next, and .git
   await copy(srcDir, destDir, {
     filter: (src) => {
-      const isNodeModules = src.includes('node_modules');
-      const isNextCache = src.includes('.next');
-      const isGit = src.includes('.git');
-      return !isNodeModules && !isNextCache && !isGit;
+      const name = path.basename(src);
+      return name !== 'node_modules' && name !== '.next' && name !== '.git';
     },
   });
 
@@ -60,25 +61,31 @@ export async function installDependencies(destDir: string) {
     });
     return true;
   } catch {
-    console.log('');
-    console.log(
-      pc.yellow(
-        `Warning: Failed to install dependencies. You may need to run '${pkgManager} install' manually.`
-      )
-    );
     return false;
   }
 }
 
 export async function initializeGit(destDir: string) {
   try {
-    await execa('git', ['init'], { cwd: destDir, shell: true });
-    await execa('git', ['add', '.'], { cwd: destDir, shell: true });
+    // Check if git is installed
+    await execa('git', ['--version']);
+
+    await execa('git', ['init', '--initial-branch=main'], { cwd: destDir });
+    await execa('git', ['add', '.'], { cwd: destDir });
     await execa('git', ['commit', '-m', 'feat: initial commit from create-dapp'], {
       cwd: destDir,
-      shell: true,
     });
-  } catch {
-    console.log(pc.yellow('Warning: Failed to initialize git repository.'));
+    return { success: true };
+  } catch (err) {
+    return {
+      success: false,
+      error: err instanceof Error ? err.message : 'Unknown error',
+    };
+  }
+}
+
+export async function removeDirectory(dir: string) {
+  if (await pathExists(dir)) {
+    await remove(dir);
   }
 }
