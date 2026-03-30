@@ -1,25 +1,22 @@
 import path from 'node:path';
-
-import * as p from '@clack/prompts';
 import { Command } from 'commander';
+import logSymbols from 'log-symbols';
 import pc from 'picocolors';
-
+import prompts from 'prompts';
 import { isEmptyDirectory } from './utils/fs.js';
+import { getPackageManager } from './utils/scaffold.js';
 
-export interface CliFlags {
-  template?: string;
-  network?: string;
-  default?: boolean;
-}
+export type Network = 'evm' | 'solana' | 'sui';
 
 export interface CliResults {
-  network: string;
   projectPath: string;
+  network: Network;
   template: string;
   installDeps: boolean;
+  includeAgents?: boolean;
 }
 
-const templateOptions: Record<string, { value: string; label: string }[]> = {
+const TEMPLATES: Record<Network, { value: string; label: string }[]> = {
   evm: [
     { value: 'next', label: 'Next.js' },
     { value: 'vite', label: 'Vite (React)' },
@@ -44,74 +41,82 @@ export async function runCli(): Promise<CliResults> {
     .option('-y, --default', 'Use default options without prompting')
     .parse(process.argv);
 
-  const args = program.args;
-  let projectPath = args[0];
+  const options = program.opts();
+  const [projectPathArg] = program.args;
+  const pkgManager = getPackageManager();
 
-  p.intro(pc.bgCyan(pc.black(' create-dapp ')));
-
-  if (!projectPath) {
-    const inputPath = await p.text({
-      message: 'What is your project name?',
-      placeholder: 'my-dapp',
-      defaultValue: 'my-dapp',
-      validate: (value) => {
-        if (value.length === 0) return 'Please enter a path.';
+  const response = await prompts(
+    [
+      {
+        type: projectPathArg ? null : 'text',
+        name: 'projectPath',
+        message: 'What is the project name?',
+        initial: projectPathArg || 'my-dapp',
       },
-    });
-
-    if (p.isCancel(inputPath)) {
-      p.cancel('Operation cancelled.');
-      process.exit(0);
+      {
+        type: options.network ? null : 'select',
+        name: 'network',
+        message: 'Which network do you want to use?',
+        initial: options.network ? 0 : undefined,
+        choices: [
+          { title: 'EVM', value: 'evm' },
+          { title: 'Solana', value: 'solana' },
+          { title: 'Sui', value: 'sui' },
+        ],
+      },
+      {
+        type: options.template ? null : 'select',
+        name: 'template',
+        message: 'Which template do you want to use?',
+        choices: (prev) => {
+          const network = options.network || prev;
+          return TEMPLATES[network as Network].map((t) => ({ title: t.label, value: t.value }));
+        },
+      },
+      {
+        type: (prev) => {
+          const template = options.template || prev;
+          return template === 'next' ? 'toggle' : null;
+        },
+        name: 'includeAgents',
+        message:
+          'Would you like to include AGENTS.md to guide coding agents to write up-to-date Next.js code?',
+        initial: true,
+        active: 'yes',
+        inactive: 'no',
+      },
+      {
+        type: options.default ? null : 'toggle',
+        name: 'installDeps',
+        message: `Do you want to install dependencies with ${pkgManager}?`,
+        initial: true,
+        active: 'yes',
+        inactive: 'no',
+      },
+    ],
+    {
+      onCancel: () => {
+        console.log(pc.red(`\n${logSymbols.error} Installation cancelled.`));
+        process.exit(1);
+      },
     }
+  );
 
-    projectPath = inputPath;
-  }
-
-  projectPath = path.resolve(process.cwd(), projectPath);
+  const projectPath = path.resolve(
+    process.cwd(),
+    response.projectPath || projectPathArg || 'my-dapp'
+  );
 
   if (!(await isEmptyDirectory(projectPath))) {
-    p.cancel(`The directory ${pc.cyan(projectPath)} is not empty.`);
-    process.exit(0);
+    console.error(pc.red(`\n${logSymbols.error} Directory ${pc.cyan(projectPath)} is not empty.`));
+    process.exit(1);
   }
 
-  const network = await p.select({
-    message: 'Which network are you building for?',
-    options: [
-      { value: 'evm', label: 'EVM (Ethereum, Base, Optimism, etc)' },
-      { value: 'solana', label: 'Solana' },
-      { value: 'sui', label: 'Sui' },
-    ],
-    initialValue: 'evm',
-  });
-
-  if (p.isCancel(network)) {
-    p.cancel('Operation cancelled.');
-    process.exit(0);
-  }
-
-  const templateList = templateOptions[network];
-
-  const template = (await p.select({
-    message: 'Which framework do you want to use?',
-    options: templateList,
-  })) as string;
-
-  if (p.isCancel(template)) {
-    p.cancel('Operation cancelled.');
-    process.exit(0);
-  }
-
-  const installDeps = (await p.confirm({
-    message: 'Would you like to install dependencies? (Recommended)',
-    initialValue: true,
-  })) as boolean;
-
-  if (p.isCancel(installDeps)) {
-    p.cancel('Operation cancelled.');
-    process.exit(0);
-  }
-
-  p.outro(`Scaffolding a new DApp in ${pc.cyan(projectPath)}.`);
-
-  return { projectPath, network, template, installDeps } satisfies CliResults;
+  return {
+    projectPath,
+    network: options.network || response.network,
+    template: options.template || response.template,
+    installDeps: options.default ? true : response.installDeps,
+    includeAgents: response.includeAgents,
+  };
 }
