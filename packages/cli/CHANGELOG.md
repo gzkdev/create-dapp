@@ -1,5 +1,11 @@
 # @gzkdev/create-dapp
 
+## 1.0.3
+
+### Patch Changes
+
+- d686928: Fix ENOENT error with npm/git, implement direct package manager detection, and follow conventional commits for the initial project scaffold.
+
 ## 1.0.2
 
 ### Patch Changes
