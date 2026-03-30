@@ -7,6 +7,5 @@
   "useTabs": false,
   "plugins": ["@trivago/prettier-plugin-sort-imports"],
   "importOrder": ["^node:", "<THIRD_PARTY_MODULES>", "^@create-dapp/(.*)$", "^[./]"],
-  "importOrderSeparation": true,
   "importOrderSortSpecifiers": true
 }
