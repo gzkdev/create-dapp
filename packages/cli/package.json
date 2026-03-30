@@ -50,7 +50,9 @@
     "lint": "eslint \"src/**/*.ts\"",
     "format:write": "prettier --write \"src/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\"",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "link:dev": "pnpm build && pnpm link --global",
+    "unlink:dev": "pnpm remove -g @gzkdev/create-dapp"
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",
